@@ -20,11 +20,37 @@ and a factor vector of length 10, with 3 different factor “levels”
 
 ```{r df_problem1}
 df_problem1 = tibble(
-  rand_sample = rnorm(10),
-  vec_logical = rand_sample > 0,
+  vec_numeric = rnorm(10),
+  vec_logical = vec_numeric > 0,
   vec_char = c("My", "name", "is", "Sandya", "Ganesh", "and", "I", "love",
                "data", "science"),
   vec_factor = factor(c("high", "medium", "low", "medium", "high", "low",
                         "low", "medium", "high", "high"))
 )
 ```
+
+#### Take the mean of each variable in df_problem1
+
+Taking the mean of the numerical random sample vector (vec_numeric) and 
+logical vector (vec_logical) worked. However, taking the mean of the 
+character vector (vec_char) and factor vector (vec_fac) did not work, and I 
+received a warning message stating that the argument is not numeric or logical.
+
+#### Convert the variables in df_problem 1 to numeric
+
+```{r numeric_convert, results = FALSE, warning = FALSE}
+as.numeric(pull(df_problem1, vec_logical))
+as.numeric(pull(df_problem1, vec_char))
+as.numeric(pull(df_problem1, vec_factor))
+```
+
+We are able to convert the logical vector to a numeric vector with 0's and 1's.
+We are also able to convert the factor vector to a numeric vector with 1, 2, 3.
+However, we are not able to convert the character vector to a numeric vector.
+This is because there are no commonalities found in the character type, and it
+explains why we cannot get a mean for the character vector. However, a mean
+was not produced for the factor vector even though it was successfully converted
+to a numeric vector, and this may have been because a mean value would not
+have been meaningful.
+
+
