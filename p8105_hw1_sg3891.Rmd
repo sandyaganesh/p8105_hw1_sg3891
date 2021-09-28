@@ -5,14 +5,13 @@ date: 2021-09-28
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup}
 library(tidyverse)
 ```
 
 ## Question 1
 
-The following code produces a data frame comprised of:
+The following code chunk produces a data frame comprised of:
 a random sample of size 10 from a standard Normal distribution, 
 a logical vector indicating whether elements of the sample are greater than 0,
 a character vector of length 10,
@@ -53,4 +52,27 @@ was not produced for the factor vector even though it was successfully converted
 to a numeric vector, and this may have been because a mean value would not
 have been meaningful.
 
+## Question 2
+
+The following code chunk calls the penguins dataset and includes a description of the 
+penguins dataset, as well as a scatterplot of the data.
+
+```{r problem2}
+data("penguins", package = "palmerpenguins")
+penguins_cleaned=na.omit(penguins)
+```
+
+#### Description of the Penguins Dataset
+
+Below we describe the dataset including names / values of important variables, 
+the size of the dataset, and the mean flipper length.
+
+
+The names of the important variables in the penguins data set include 
+`r colnames(penguins)`. The size of the data set penguins is `r nrow(penguins)*ncol(penguins)` data points. The mean flipper length is `r round(mean(penguins_cleaned$flipper_length_mm), digits = 2)`.
+
+```{r problem2_histo, warning = FALSE}
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)
+       ) + geom_point()
+```
 
