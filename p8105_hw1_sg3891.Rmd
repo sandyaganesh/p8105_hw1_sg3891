@@ -17,3 +17,14 @@ a random sample of size 10 from a standard Normal distribution,
 a logical vector indicating whether elements of the sample are greater than 0,
 a character vector of length 10,
 and a factor vector of length 10, with 3 different factor “levels”
+
+```{r df_problem1}
+df_problem1 = tibble(
+  rand_sample = rnorm(10),
+  vec_logical = rand_sample > 0,
+  vec_char = c("My", "name", "is", "Sandya", "Ganesh", "and", "I", "love",
+               "data", "science"),
+  vec_factor = factor(c("high", "medium", "low", "medium", "high", "low",
+                        "low", "medium", "high", "high"))
+)
+```
