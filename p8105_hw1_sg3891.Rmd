@@ -1,11 +1,12 @@
 ---
 title: "p8105_hw1_sg3891"
-author: "Sandya Ganesh"
+author: Sandya Ganesh
 date: 2021-09-28
 output: github_document
 ---
 
-```{r setup}
+Load the tidyverse library
+```{r setup, message = FALSE}
 library(tidyverse)
 ```
 
@@ -30,6 +31,12 @@ df_problem1 = tibble(
 
 #### Take the mean of each variable in df_problem1
 
+```{r mean_problem1}
+mean(pull(df_problem1, vec_numeric))
+mean(pull(df_problem1, vec_logical))
+mean(pull(df_problem1, vec_char))
+mean(pull(df_problem1, vec_factor))
+```
 Taking the mean of the numerical random sample vector (vec_numeric) and 
 logical vector (vec_logical) worked. However, taking the mean of the 
 character vector (vec_char) and factor vector (vec_fac) did not work, and I 
@@ -43,23 +50,30 @@ as.numeric(pull(df_problem1, vec_char))
 as.numeric(pull(df_problem1, vec_factor))
 ```
 
-We are able to convert the logical vector to a numeric vector with 0's and 1's.
-We are also able to convert the factor vector to a numeric vector with 1, 2, 3.
-However, we are not able to convert the character vector to a numeric vector.
-This is because there are no commonalities found in the character type, and it
-explains why we cannot get a mean for the character vector. However, a mean
-was not produced for the factor vector even though it was successfully converted
-to a numeric vector, and this may have been because a mean value would not
-have been meaningful.
+We are able to convert the logical vector to a numeric vector with 0's and 1's,
+which explains why we can get a mean for the logical vector. This happens 
+because the logical vector is outputting TRUE or FALSE, which is easily 
+converted to 0's and 1's. 
+
+We are also able to convert the factor vector to a numeric vector with 
+1, 2, and 3, because the software recognizes there are 3 levels to the factor
+vector and assigns each level a number. However, this does not explain why a 
+mean was not produced for the factor vector. This may be because a mean value 
+would not have been a meaningful statistic to describe the 3 levels. 
+
+Finally, we are not able to convert the character vector to a numeric vector, 
+and it returns an NA value because there is no underlying numeric integer 
+representation for the character vector. This explains why we cannot get a mean 
+for the character vector, because it is not possible to convert the character 
+string into a numeric needed to calculate the mean. 
 
 ## Question 2
 
-The following code chunk calls the penguins dataset and includes a description of the 
-penguins dataset, as well as a scatterplot of the data.
+The following code loads the penguins dataset and includes a description 
+of the penguins dataset, as well as a scatterplot of the data.
 
 ```{r problem2}
 data("penguins", package = "palmerpenguins")
-penguins_cleaned=na.omit(penguins)
 ```
 
 #### Description of the Penguins Dataset
@@ -68,11 +82,27 @@ Below we describe the dataset including names / values of important variables,
 the size of the dataset, and the mean flipper length.
 
 
-The names of the important variables in the penguins data set include 
-`r colnames(penguins)`. The size of the data set penguins is `r nrow(penguins)*ncol(penguins)` data points. The mean flipper length is `r round(mean(penguins_cleaned$flipper_length_mm), digits = 2)`.
+The names of the variables in the penguins data set include 
+`r colnames(penguins)`. Of these variables, some important variables are the
+species of penguins, their sex, their bill length, and flipper length. 
+There are `r nlevels(pull(penguins, species))` species of penguins that include 
+`r levels(pull(penguins, species))`. There are 
+`r sum(pull(penguins, sex) == 'female', na.rm = TRUE)` female and
+`r sum(pull(penguins, sex) == 'male', na.rm = TRUE)` male penguins in the data.
+The range of values for the penguin bill length is 
+(`r  range(pull(penguins, bill_length_mm), na.rm = TRUE)` mm). 
 
-```{r problem2_histo, warning = FALSE}
+The size of the data set penguins is `r nrow(penguins)` rows and 
+`r ncol(penguins)` columns.
+
+The mean flipper length is 
+`r round(mean(pull(penguins, flipper_length_mm), na.rm = TRUE), digits = 2)` mm.
+
+#### Scatterplot of the Penguins Dataset
+
+```{r problem2_histo, warning = FALSE, message = FALSE}
 ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)
        ) + geom_point()
+ggsave("penguins.png")
 ```
 
