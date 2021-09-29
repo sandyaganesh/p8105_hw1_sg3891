@@ -5,7 +5,7 @@ date: 2021-09-28
 output: github_document
 ---
 
-Load the tidyverse library
+Load the tidyverse library.
 ```{r setup, message = FALSE}
 library(tidyverse)
 ```
@@ -16,7 +16,7 @@ The following code chunk produces a data frame comprised of:
 a random sample of size 10 from a standard Normal distribution, 
 a logical vector indicating whether elements of the sample are greater than 0,
 a character vector of length 10,
-and a factor vector of length 10, with 3 different factor “levels”
+and a factor vector of length 10, with 3 different factor “levels”.
 
 ```{r df_problem1}
 df_problem1 = tibble(
@@ -83,8 +83,9 @@ the size of the dataset, and the mean flipper length.
 
 
 The names of the variables in the penguins data set include 
-`r colnames(penguins)`. Of these variables, some important variables are the
-species of penguins, their sex, their bill length, and flipper length. 
+`r colnames(penguins)`. Of these variables, some important variables to
+to understand the characteristics of the penguins include the various 
+`r names(penguins %>% select(c(1, 7, 3, 5)))`. 
 There are `r nlevels(pull(penguins, species))` species of penguins that include 
 `r levels(pull(penguins, species))`. There are 
 `r sum(pull(penguins, sex) == 'female', na.rm = TRUE)` female and
@@ -99,6 +100,10 @@ The mean flipper length is
 `r round(mean(pull(penguins, flipper_length_mm), na.rm = TRUE), digits = 2)` mm.
 
 #### Scatterplot of the Penguins Dataset
+
+Below is a scatterplot with bill length on the x-axis and flipper length on the
+y-axis. The 3 species of penguins can be seen in the legend and are colored in
+the plot. The code chunk here creates the scatter plot and saves the image.
 
 ```{r problem2_histo, warning = FALSE, message = FALSE}
 ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)
